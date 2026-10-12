@@ -1,4 +1,28 @@
 
+/* Google Fonts fallback for high-contrast luxury serif */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap');
+
+/* Local Astralaga @font-face definition (loads if files are placed in fonts/ directory) */
+@font-face {
+    font-family: 'Astralaga';
+    src: url('fonts/Astralaga-Regular.woff2') format('woff2'),
+         url('fonts/Astralaga-Regular.woff') format('woff'),
+         url('fonts/Astralaga-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Astralaga';
+    src: url('fonts/Astralaga-Bold.woff2') format('woff2'),
+         url('fonts/Astralaga-Bold.woff') format('woff'),
+         url('fonts/Astralaga-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --bg: #f1f5f9;
     --surface: #ffffff;
@@ -28,7 +52,7 @@ body.dark-mode {
 
 /* Base Reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: "Segoe UI", Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+body { font-family: "Astralaga", "Cormorant Garamond", "Playfair Display", Georgia, serif; background: var(--bg); color: var(--text); line-height: 1.5; }
 
 /* Header */
 header { background: linear-gradient(135deg, #1e3a8a, var(--primary)); color: #fff; padding: 20px; }
