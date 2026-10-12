@@ -1,9 +1,3 @@
-/* ===========================================
-   GymTracker - app.js
-   Course: CSE326 Internet Programming | LPU
-   Description: All JavaScript logic for GymTracker
-   Tech: Pure Vanilla ES6+ - No jQuery / No Libraries
-   =========================================== */
 
 "use strict";
 
