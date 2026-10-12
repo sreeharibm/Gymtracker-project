@@ -1,11 +1,4 @@
-/* ===========================================
-   GymTracker - style.css
-   Course: CSE326 Internet Programming | LPU
-   Description: All styling for GymTracker app
-   Tech: Pure CSS3 - No Bootstrap / No Tailwind
-   =========================================== */
 
-/* CSS Custom Properties (Variables) for Theming */
 :root {
     --bg: #f1f5f9;
     --surface: #ffffff;
