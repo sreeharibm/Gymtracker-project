@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GymTracker - Daily Gym Workout Routine Planner, Exercise Catalog & Workout Logger with Rest Timer.">
+    <meta name="keywords" content="gym tracker, workout planner, exercise log, rest timer, push pull legs, gym catalog, sets reps">
+    <meta name="author" content="GymTracker Team - LPU CSE326">
+    <title>GymTracker | Daily Routine Planner & Exercise Log</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header with SVG Logo and Controls -->
+    <header>
+        <div class="header-wrap">
+            <div class="logo">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="#60a5fa" aria-hidden="true">
+                    <path d="M6 5H4v14h2V5zm14 0h-2v14h2V5zM2 9H1v6h1V9zm21 0h-1v6h1V9zM7 11h10v2H7v-2zm-1-3h2v8H6V8zm10 0h2v8h-2V8z"/>
+                </svg>
+                GymTracker
+            </div>
+            <div class="no-print" style="display:flex; gap:8px;">
+                <button type="button" class="btn-header" onclick="toggleTheme()">🌓 Theme</button>
+                <button type="button" class="btn-header" onclick="window.print()">🖨️ Print</button>
+                <button type="button" class="btn-header" onclick="exportJSON()">📥 Export JSON</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Navigation -->
+    <nav aria-label="Main Navigation">
+        <button type="button" class="active" onclick="switchTab('dashboard')">🏠 Dashboard</button>
+        <button type="button" onclick="switchTab('planner')">📅 Routine Planner</button>
+        <button type="button" onclick="switchTab('logger')">📝 Exercise Log &amp; Timer</button>
+        <button type="button" onclick="switchTab('catalog')">🏋️ Exercise Catalog</button>
+    </nav>
+
+    <main>
+        <!-- TAB 1: DASHBOARD -->
+        <section id="tab-dashboard" class="tab-content active">
+            <article class="card">
+                <h2>Welcome to GymTracker</h2>
+                <p>Plan daily gym workout routines and log exercises, sets, reps, and weights. Stay consistent, track your progress, and build the body you want — one workout at a time.</p>
+            </article>
+
+            <!-- Gym Info Cards -->
+            <article class="card">
+                <h3>💪 Why Track Your Workouts?</h3>
+                <p>Tracking your workouts is one of the most powerful habits you can build as a gym-goer. When you write down your sets, reps, and weights, you create a clear picture of your progress over time. It helps you avoid plateaus by knowing exactly when to increase the load, and it keeps you accountable on days when motivation is low.</p>
+                <p>Studies show that people who track their training consistently make significantly more strength and muscle gains compared to those who train without any record. Whether you are a beginner or an experienced lifter, having a logbook — even a simple one like this — makes a measurable difference in your results.</p>
+            </article>
+
+            <article class="card">
+                <h3>🏋️ Beginner Tips for the Gym</h3>
+                <p><strong>Start Light:</strong> When you are new to the gym, always begin with a weight that feels easy. Focus on learning the correct form before adding more load. Bad form with heavy weight leads to injury, while good form with light weight builds a strong foundation.</p>
+                <p><strong>Rest &amp; Recovery:</strong> Your muscles do not grow during the workout — they grow during rest. Make sure you are sleeping at least 7 to 8 hours a night and allowing each muscle group at least 48 hours of rest before training it again. Overtraining is a real issue that beginners often run into.</p>
+                <p><strong>Stay Consistent:</strong> Going to the gym three times a week consistently for six months will give you far better results than going every day for three weeks and then quitting. Consistency beats intensity every time, especially when you are starting out.</p>
+            </article>
+
+            <article class="card">
+                <h3>🥗 Nutrition &amp; Gym Performance</h3>
+                <p>What you eat directly impacts how well you perform in the gym and how fast you recover afterward. Protein is the most important nutrient for muscle building — aim for around 1.6 to 2 grams of protein per kilogram of your body weight each day. Good sources include eggs, chicken, paneer, lentils, and low-fat dairy.</p>
+                <p>Carbohydrates are your body's primary fuel source for intense workouts. Eating a small meal with carbs and protein about 1 to 2 hours before training gives your body the energy it needs. After your workout, a post-workout meal helps kickstart muscle repair and glycogen replenishment. Hydration is equally important — even mild dehydration can noticeably reduce your strength and endurance.</p>
+            </article>
+
+            <!-- CSS Grid Statistics -->
+            <div class="grid">
+                <div class="stat-box"><span>Planned Routines</span><b id="statPlanned">0</b></div>
+                <div class="stat-box"><span>Logged Exercises</span><b id="statLogged">0</b></div>
+                <div class="stat-box"><span>Total Volume Lifted</span><b id="statVolume">0 kg</b></div>
+                <div class="stat-box"><span>Time Exercised</span><b id="statTime">0m</b></div>
+            </div>
+
+            <article class="card">
+                <h3>🎯 Today's Workout Preview (<span id="currentDay">Today</span>)</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>Day</th><th>Split</th><th>Exercise</th><th>Sets</th><th>Reps</th></tr>
+                        </thead>
+                        <tbody id="todayRoutineBody"></tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <!-- TAB 2: ROUTINE PLANNER -->
+        <section id="tab-planner" class="tab-content">
+            <article class="card">
+                <h2>📅 Workout Routine Planner</h2>
+                <form id="routineForm" onsubmit="addRoutine(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="planDay">Day: *</label>
+                            <select id="planDay" required>
+                                <option value="Monday">Monday</option><option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option><option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option><option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="planSplit">Workout Split Selector: *</label>
+                            <select id="planSplit" required>
+                                <option value="Push Day: Chest/Triceps">Push Day: Chest/Triceps</option>
+                                <option value="Pull Day: Back/Biceps">Pull Day: Back/Biceps</option>
+                                <option value="Leg Day: Quads/Hamstrings">Leg Day: Quads/Hamstrings</option>
+                                <option value="Full Body">Full Body</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex:2 1 200px;">
+                            <label for="planExercise">Exercise Name: *</label>
+                            <input type="text" id="planExercise" placeholder="e.g. Bench Press" required
+                                   pattern="^[A-Za-z0-9\s\-]{3,30}$" oninput="validateInput(this, /^[A-Za-z0-9\s\-]{3,30}$/)">
+                            <span class="msg">3-30 letters or numbers</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="planSets">Sets: *</label>
+                            <input type="number" id="planSets" min="1" max="10" value="3" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="planReps">Reps: *</label>
+                            <input type="number" id="planReps" min="1" max="50" value="10" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">➕ Add to Routine</button>
+                </form>
+            </article>
+
+            <article class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>📋 Planned Routines</h3>
+                    <select id="filterDay" onchange="renderRoutines()" style="font-size:12px; padding:4px;">
+                        <option value="ALL">All Days</option>
+                        <option value="Monday">Monday</option><option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option><option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option><option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>Day</th><th>Split</th><th>Exercise</th><th>Sets</th><th>Reps</th><th class="no-print">Action</th></tr>
+                        </thead>
+                        <tbody id="routineTableBody"></tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <!-- TAB 3: DAILY EXERCISE LOG & REST TIMER -->
+        <section id="tab-logger" class="tab-content">
+            <!-- Rest Timer between sets with audible chime -->
+            <article class="card no-print">
+                <h2>⏳ Rest Timer Between Sets</h2>
+                <p>Choose a rest interval between sets. An audible completion chime will play when the countdown reaches 0.</p>
+                <div class="timer-display" id="restTimerDisplay">00:00</div>
+                <div class="timer-presets">
+                    <button type="button" class="btn btn-preset" onclick="startRestTimer(60)">⏱️ 60s Rest</button>
+                    <button type="button" class="btn btn-preset" onclick="startRestTimer(90)">⏱️ 90s Rest</button>
+                    <button type="button" class="btn btn-preset" onclick="startRestTimer(120)">⏱️ 120s Rest</button>
+                    <button type="button" class="btn btn-danger" onclick="stopRestTimer()">⏹ Stop Timer</button>
+                    <button type="button" class="btn btn-header" style="background:#2563eb; color:#fff;" onclick="playChimeSound()">🔔 Test Chime</button>
+                </div>
+            </article>
+
+            <!-- Workout Stopwatch -->
+            <article class="card no-print">
+                <h2>⏱️ Workout Stopwatch</h2>
+                <p>Time your entire workout session and record set splits.</p>
+                <div class="stopwatch-display" id="swDisplay">00:00:00</div>
+                <div class="stopwatch-controls">
+                    <button type="button" id="swStartBtn" class="btn btn-primary" onclick="toggleStopwatch()">▶ Start</button>
+                    <button type="button" class="btn btn-lap" onclick="recordLap()">⏱️ Lap / Set</button>
+                    <button type="button" class="btn btn-danger" onclick="resetStopwatch()">🔄 Reset</button>
+                </div>
+                <div class="table-wrap">
+                    <table id="lapTable">
+                        <thead>
+                            <tr><th>Set</th><th>Split Time</th><th>Total Time</th></tr>
+                        </thead>
+                        <tbody id="lapTableBody">
+                            <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">No sets recorded yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <!-- Daily Workout Logger with kg/lbs unit selector -->
+            <article class="card">
+                <h2>📝 Daily Exercise Log</h2>
+                <form id="logForm" onsubmit="addLog(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="logDate">Date: *</label>
+                            <input type="date" id="logDate" required>
+                        </div>
+                        <div class="form-group" style="flex:2 1 200px;">
+                            <label for="logExercise">Exercise Name: *</label>
+                            <input type="text" id="logExercise" placeholder="e.g. Barbell Squat" required
+                                   pattern="^[A-Za-z0-9\s\-]{3,30}$" oninput="validateInput(this, /^[A-Za-z0-9\s\-]{3,30}$/)">
+                            <span class="msg">3-30 letters or numbers</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="logSets">Sets: *</label>
+                            <input type="number" id="logSets" min="1" max="20" value="3" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="logReps">Reps: *</label>
+                            <input type="number" id="logReps" min="1" max="100" value="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="logWeight">Weight: *</label>
+                            <input type="number" id="logWeight" min="0" max="1000" step="0.5" value="50" required>
+                        </div>
+                        <div class="form-group" style="flex: 0 1 90px;">
+                            <label for="logUnit">Unit: *</label>
+                            <select id="logUnit" required>
+                                <option value="kg">kg</option>
+                                <option value="lbs">lbs</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Save Exercise</button>
+                </form>
+            </article>
+
+            <article class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3>📋 Exercise History</h3>
+                    <button type="button" class="btn-danger" onclick="clearLogs()">🗑️ Clear</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>Date</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th><th>Volume</th><th class="no-print">Action</th></tr>
+                        </thead>
+                        <tbody id="logTableBody"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="text-align:right;">Total Volume:</td>
+                                <td colspan="3" id="footSetsReps">--</td>
+                                <td id="footTotalVolume">0 kg</td>
+                                <td class="no-print">--</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <!-- TAB 4: EXERCISE CATALOG WITH ILLUSTRATIONS & MUSCLE TAGS -->
+        <section id="tab-catalog" class="tab-content">
+            <article class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <h2>🏋️ Exercise Catalog</h2>
+                        <p>Browse exercises with movement illustrations, equipment requirements, and target muscle group tags.</p>
+                    </div>
+                    <div>
+                        <select id="catalogFilter" onchange="filterCatalog()" style="font-size:13px; padding:6px 10px;">
+                            <option value="ALL">All Muscle Groups</option>
+                            <option value="Chest">Chest</option>
+                            <option value="Back">Back</option>
+                            <option value="Legs">Legs</option>
+                            <option value="Shoulders">Shoulders</option>
+                            <option value="Arms">Arms</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="catalog-grid" id="catalogGrid">
+                    <!-- Dynamic rendering of exercise cards with SVG illustrations -->
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GymTracker. Built with Semantic HTML5, CSS3, &amp; Vanilla ES6 JavaScript.</p>
+    </footer>
+
+    <!-- External JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>

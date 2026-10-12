@@ -1,0 +1,130 @@
+/* ===========================================
+   GymTracker - style.css
+   Course: CSE326 Internet Programming | LPU
+   Description: All styling for GymTracker app
+   Tech: Pure CSS3 - No Bootstrap / No Tailwind
+   =========================================== */
+
+/* CSS Custom Properties (Variables) for Theming */
+:root {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --border: #cbd5e1;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --badge-push: #ef4444;
+    --badge-pull: #3b82f6;
+    --badge-leg: #10b981;
+    --badge-full: #8b5cf6;
+}
+
+/* Dark Mode Theme (overrides variables) */
+body.dark-mode {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --border: #334155;
+}
+
+/* Base Reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Segoe UI", Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+
+/* Header */
+header { background: linear-gradient(135deg, #1e3a8a, var(--primary)); color: #fff; padding: 20px; }
+.header-wrap { max-width: 960px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.logo { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.btn-header { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+
+/* Sticky Navigation (CSS Flexbox) */
+nav { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; justify-content: center; gap: 8px; padding: 8px; z-index: 10; flex-wrap: wrap; }
+nav button { background: none; border: 1px solid transparent; color: var(--text); padding: 8px 14px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+nav button.active, nav button:hover { background: var(--primary); color: #fff; }
+
+/* Main Content Area */
+main { max-width: 960px; margin: 20px auto 40px; padding: 0 15px; }
+
+/* Tab Animation (CSS Keyframes) */
+.tab-content { display: none; animation: fadeIn 0.25s ease-in; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards */
+article.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.04); }
+h2 { color: var(--primary); font-size: 20px; margin-bottom: 6px; }
+h3 { font-size: 16px; margin-bottom: 12px; }
+p { color: var(--text-muted); margin-bottom: 8px; }
+
+/* CSS Grid for Statistics */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
+.stat-box span { font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+.stat-box b { display: block; font-size: 24px; color: var(--primary); margin-top: 4px; }
+
+/* Forms (CSS Flexbox) */
+.form-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.form-group { flex: 1 1 180px; display: flex; flex-direction: column; gap: 4px; }
+label { font-size: 13px; font-weight: 600; }
+input, select { padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px; background: var(--surface); color: var(--text); outline: none; }
+input:focus, select:focus { border-color: var(--primary); }
+
+/* Real-time RegEx Validation Feedback */
+input.is-valid { border-color: var(--success); }
+input.is-invalid { border-color: var(--danger); }
+.msg { font-size: 11px; color: var(--text-muted); }
+
+/* Buttons */
+.btn { padding: 8px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.2s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid var(--danger); padding: 4px 8px; font-size: 12px; }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+
+/* Tables */
+.table-wrap { width: 100%; overflow-x: auto; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; }
+th { background: rgba(37,99,235,0.08); color: var(--primary); font-weight: 700; }
+tfoot td { font-weight: 700; background: rgba(37,99,235,0.05); }
+
+/* Workout Stopwatch & Rest Timer */
+.stopwatch-display, .timer-display { font-size: 42px; font-weight: 800; letter-spacing: 2px; text-align: center; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin: 10px 0; font-variant-numeric: tabular-nums; }
+.timer-display.timer-active { animation: pulseBorder 1s infinite alternate; }
+.timer-display.timer-finished { color: var(--danger); border-color: var(--danger); background: #fee2e2; }
+@keyframes pulseBorder { from { border-color: var(--primary); } to { border-color: #93c5fd; } }
+
+.stopwatch-controls, .timer-presets { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.btn-lap, .btn-preset { background: rgba(37,99,235,0.08); color: var(--primary); border: 1px solid var(--primary); }
+.btn-lap:hover, .btn-preset:hover { background: var(--primary); color: #fff; }
+
+/* Exercise Catalog Grid & Cards */
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 14px; }
+.catalog-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+.catalog-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.catalog-illustration { width: 100%; height: 130px; border-radius: 8px; background: #e0e7ff; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.catalog-illustration svg { width: 100%; height: 100%; }
+.catalog-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.muscle-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.tag-chest { background: #fee2e2; color: #b91c1c; }
+.tag-back { background: #dbeafe; color: #1d4ed8; }
+.tag-legs { background: #d1fae5; color: #047857; }
+.tag-shoulders { background: #fef3c7; color: #b45309; }
+.tag-arms { background: #ede9fe; color: #6d28d9; }
+.tag-full { background: #fce7f3; color: #be185d; }
+.catalog-desc { font-size: 12px; color: var(--text-muted); }
+
+/* Footer */
+footer { text-align: center; padding: 20px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+/* Print Styles (@media print) */
+@media print { nav, .no-print, form { display: none !important; } }
+
+/* Responsive Breakpoints */
+@media (max-width: 600px) { .header-wrap { flex-direction: column; text-align: center; } }
